@@ -11,6 +11,16 @@ Xan Skills 是一个可复用的 AI Agent Skills 仓库。它把所有 skill 源
 - 新 skill 模板：[templates/new-skill/SKILL.md](templates/new-skill/SKILL.md)
 - Skill 注册表：[registry.json](registry.json)
 
+## 三层结构
+
+```text
+skills/<function>/<domain>/<skill>/SKILL.md
+```
+
+- `function`：顶层分类，表示一个部门或职能，例如 `engineering`、`marketing`、`legal`。
+- `domain`：该职能内的主题领域，例如 `engineering/security`、`marketing/seo`、`legal/contracts`。
+- `skill`：具体可复用能力，目录内包含 `SKILL.md`，可按需包含 `scripts/`、`references/`、`assets/`。
+
 ## 目录结构
 
 ```text
@@ -19,15 +29,19 @@ xan-skills/
 │   ├── CATEGORIES.md
 │   └── SKILL_GUIDE.md
 ├── skills/
-│   ├── automation/
-│   ├── coding/
+│   ├── customer-support/
+│   ├── content/
+│   │   └── reports/
 │   ├── data/
-│   ├── documents/
 │   ├── ecommerce/
+│   ├── engineering/
+│   ├── finance/
+│   ├── legal/
+│   ├── marketing/
 │   ├── media/
 │   ├── operations/
-│   ├── reports/
-│   └── research/
+│   │   └── automation/
+│   └── productivity/
 ├── templates/
 │   └── new-skill/
 ├── registry.json
@@ -39,25 +53,27 @@ xan-skills/
     └── doctor.sh
 ```
 
-## 分类
+## 顶层职能分类
 
-| 分类 | 状态 | 适用场景 |
+| Function | 状态 | 适用场景 |
 |---|---|---|
-| `automation` | 已启用 | 操作设备、本地应用、定时任务、外部服务的自动化流程 |
-| `reports` | 已启用 | 日报、周报、项目进展、领导汇报、工作日志 |
-| `ecommerce` | 规划中 | Amazon/电商 Listing、产品图、A+ 页面、SEO、平台规则 |
-| `operations` | 规划中 | 基础设施、SaaS 运维、监控、故障排查、事故响应 |
-| `data` | 规划中 | 数据查询、导出、日志分析、指标、BI、数据库流程 |
-| `coding` | 规划中 | 代码审查、重构、测试、CI 修复、发布说明、仓库工作流 |
-| `documents` | 规划中 | 文档、表格、幻灯片、PDF、合同、表单、知识库流程 |
-| `research` | 规划中 | 网络检索、来源对比、市场研究、技术调研、决策简报 |
-| `media` | 规划中 | 图片、视频、视觉提示词、创意资产、设计生产流程 |
+| `engineering` | 规划中 | 软件工程、内部工具、自动化脚本、系统集成 |
+| `marketing` | 规划中 | SEO、广告、邮件、社媒、活动和转化优化 |
+| `ecommerce` | 规划中 | Amazon/电商 Listing、商品内容、竞品、平台规则 |
+| `operations` | 已启用 | SOP、供应商、库存、履约、业务自动化 |
+| `content` | 已启用 | 文案、报告、博客、脚本、知识库内容 |
+| `media` | 规划中 | 图片、视频、视觉提示词、设计资产 |
+| `data` | 规划中 | 数据查询、分析、仪表盘、表格、数据库 |
+| `finance` | 规划中 | 定价、利润、预算、对账、现金流 |
+| `legal` | 规划中 | 合同、合规、政策、条款和风险检查 |
+| `customer-support` | 规划中 | FAQ、工单、回复、退款、评价处理 |
+| `productivity` | 规划中 | 计划、复盘、个人流程、知识管理 |
 
 当前已有 skill：
 
-- `skills/automation/clock-in`
-- `skills/reports/oazon-daily`
-- `skills/reports/plain-language-daily-reports`
+- `skills/operations/automation/clock-in`
+- `skills/content/reports/oazon-daily`
+- `skills/content/reports/plain-language-daily-reports`
 
 ## 安装目标
 
@@ -78,7 +94,7 @@ bash scripts/install.sh
 
 安装脚本会执行：
 
-1. 从 `skills/<category>/<skill-name>` 发现可安装 skill。
+1. 从 `skills/<function>/<domain>/<skill-name>` 发现可安装 skill。
 2. 让用户选择安装一个、多个或全部 skill。
 3. 让用户选择 Codex、Claude Code 或自定义目标目录。
 4. 在目标目录创建指向本仓库 skill 源目录的链接。
@@ -119,7 +135,7 @@ bash scripts/doctor.sh
 
 检查内容包括：
 
-- `skills/` 下有哪些分类和 skill。
+- `skills/` 下有哪些 function、domain 和 skill。
 - 每个真实 skill 是否包含 `SKILL.md`。
 - 常见目标目录是否存在。
 - 已安装条目是链接，还是旧的复制目录。
@@ -140,8 +156,8 @@ bash scripts/uninstall.sh
 
 简版流程：
 
-1. 从 [docs/CATEGORIES.md](docs/CATEGORIES.md) 选择分类。
-2. 创建 `skills/<category>/<skill-name>/SKILL.md`。
+1. 从 [docs/CATEGORIES.md](docs/CATEGORIES.md) 选择 function 和 domain。
+2. 创建 `skills/<function>/<domain>/<skill-name>/SKILL.md`。
 3. `skill-name` 使用小写短横线格式，例如 `cloudflare-tunnel-debug`。
 4. 在 frontmatter 的 `description` 写清楚触发场景和主要能力。
 5. 保持 `SKILL.md` 简洁，长规范、示例、表格放到 `references/`。

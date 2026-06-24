@@ -1,17 +1,11 @@
 # ecommerce
 
-`ecommerce` 用于电商运营、商品内容、平台规则和销售转化相关流程。
+`ecommerce` 用于电商平台、商品内容、销售转化和平台规则。
 
-适合放入本分类的 skill：
+常见 domain：
 
-- Amazon、Shopify、独立站、跨境平台 Listing 优化。
-- 标题、五点、描述、A+ 页面、关键词和 SEO 工作流。
-- 产品图、卖点提炼、竞品分析和平台合规检查。
-
-不适合放入本分类的 skill：
-
-- 纯视觉资产生产流程，放到 `media`。
-- 纯数据分析或报表查询流程，放到 `data`。
-- 通用市场研究流程，放到 `research`。
-
-当前暂无 skill。新增时请先参考 `docs/SKILL_GUIDE.md`。
+- `amazon`：Amazon 平台专项流程。
+- `listing`：标题、五点、描述、A+、关键词。
+- `product-research`：选品、竞品、市场机会分析。
+- `reviews`：评价分析、差评处理、VOC 汇总。
+- `marketplace-compliance`：平台规则、合规检查、风险规避。

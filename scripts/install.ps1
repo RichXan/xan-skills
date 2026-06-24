@@ -14,14 +14,17 @@ function Get-SkillDirs {
     }
 
     $items = @()
-    foreach ($categoryDir in (Get-ChildItem -Path $SkillsRoot -Directory | Sort-Object Name)) {
-        foreach ($skillDir in (Get-ChildItem -Path $categoryDir.FullName -Directory | Sort-Object Name)) {
-            if (Test-SkillEntry $skillDir.FullName) {
-                $items += [PSCustomObject]@{
-                    Display = "$($categoryDir.Name)/$($skillDir.Name)"
-                    Category = $categoryDir.Name
-                    Name = $skillDir.Name
-                    FullName = $skillDir.FullName
+    foreach ($functionDir in (Get-ChildItem -Path $SkillsRoot -Directory | Sort-Object Name)) {
+        foreach ($domainDir in (Get-ChildItem -Path $functionDir.FullName -Directory | Sort-Object Name)) {
+            foreach ($skillDir in (Get-ChildItem -Path $domainDir.FullName -Directory | Sort-Object Name)) {
+                if (Test-SkillEntry $skillDir.FullName) {
+                    $items += [PSCustomObject]@{
+                        Display = "$($functionDir.Name)/$($domainDir.Name)/$($skillDir.Name)"
+                        Function = $functionDir.Name
+                        Domain = $domainDir.Name
+                        Name = $skillDir.Name
+                        FullName = $skillDir.FullName
+                    }
                 }
             }
         }
@@ -94,7 +97,7 @@ function Install-SkillLink {
 
 $skills = @(Get-SkillDirs)
 if ($skills.Count -eq 0) {
-    throw "No skill directories found. Use skills/<category>/<skill-name>/SKILL.md."
+    throw "No skill directories found. Use skills/<function>/<domain>/<skill-name>/SKILL.md."
 }
 
 Write-Host "Found skills:"

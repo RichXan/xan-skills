@@ -1,17 +1,11 @@
 # data
 
-`data` 用于数据查询、导出、清洗、指标计算、日志分析和 BI 辅助流程。
+`data` 用于数据查询、分析、报表、仪表盘和数据库工作流。
 
-适合放入本分类的 skill：
+常见 domain：
 
-- SQL、CSV、Excel、JSON、日志文件和指标数据处理。
-- 固定口径的数据校验、转换、汇总和异常检查。
-- Dashboard、业务指标、分析摘要和数据交付流程。
-
-不适合放入本分类的 skill：
-
-- 把结论写成日报或周报的表达流程，放到 `reports`。
-- 正式表格、文档、幻灯片产物制作，放到 `documents`。
-- 线上服务故障定位，放到 `operations`。
-
-当前暂无 skill。新增数据类 skill 时应明确数据来源、字段口径和输出格式。
+- `analytics`：指标分析、异常分析、趋势判断。
+- `reporting`：固定口径报表和周期性数据输出。
+- `dashboards`：仪表盘结构、指标设计、可视化说明。
+- `spreadsheets`：Excel、CSV、表格清洗和校验。
+- `databases`：SQL、MongoDB、Redis、日志和查询辅助。

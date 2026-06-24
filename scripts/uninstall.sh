@@ -10,13 +10,16 @@ has_skill_entry() {
 
 list_skill_records() {
   [ -d "$SKILLS_ROOT" ] || return 0
-  find "$SKILLS_ROOT" -mindepth 2 -maxdepth 2 -type d \
+  find "$SKILLS_ROOT" -mindepth 3 -maxdepth 3 -type d \
     | sort \
     | while IFS= read -r dir; do
         if has_skill_entry "$dir"; then
-          category="$(basename "$(dirname "$dir")")"
-          name="$(basename "$dir")"
-          printf '%s|%s|%s|%s\n' "$category/$name" "$dir" "$name" "$category"
+          domain_dir="$(dirname "$dir")"
+          function_dir="$(dirname "$domain_dir")"
+          function_name="$(basename "$function_dir")"
+          domain_name="$(basename "$domain_dir")"
+          skill_name="$(basename "$dir")"
+          printf '%s|%s|%s|%s|%s\n' "$function_name/$domain_name/$skill_name" "$dir" "$skill_name" "$function_name" "$domain_name"
         fi
       done
 }
@@ -61,7 +64,7 @@ fi
 
 echo "发现以下 skill："
 for i in "${!RECORDS[@]}"; do
-  IFS='|' read -r display source_dir skill_name category <<< "${RECORDS[$i]}"
+  IFS='|' read -r display source_dir skill_name function_name domain_name <<< "${RECORDS[$i]}"
   printf "  %d) %s\n" "$((i + 1))" "$display"
 done
 echo "  a) 全部卸载"
@@ -90,7 +93,7 @@ else
 fi
 
 for record in "${SELECTED[@]}"; do
-  IFS='|' read -r display source_dir skill_name category <<< "$record"
+  IFS='|' read -r display source_dir skill_name function_name domain_name <<< "$record"
   link_path="$TARGET_DIR/$skill_name"
   if [ -L "$link_path" ]; then
     rm "$link_path"

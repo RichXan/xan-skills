@@ -10,13 +10,16 @@ has_skill_entry() {
 
 list_skill_records() {
   [ -d "$SKILLS_ROOT" ] || return 0
-  find "$SKILLS_ROOT" -mindepth 2 -maxdepth 2 -type d \
+  find "$SKILLS_ROOT" -mindepth 3 -maxdepth 3 -type d \
     | sort \
     | while IFS= read -r dir; do
         if has_skill_entry "$dir"; then
-          category="$(basename "$(dirname "$dir")")"
-          name="$(basename "$dir")"
-          printf '%s|%s|%s|%s\n' "$category/$name" "$dir" "$name" "$category"
+          domain_dir="$(dirname "$dir")"
+          function_dir="$(dirname "$domain_dir")"
+          function_name="$(basename "$function_dir")"
+          domain_name="$(basename "$domain_dir")"
+          skill_name="$(basename "$dir")"
+          printf '%s|%s|%s|%s|%s\n' "$function_name/$domain_name/$skill_name" "$dir" "$skill_name" "$function_name" "$domain_name"
         fi
       done
 }
@@ -31,7 +34,7 @@ check_target() {
   fi
 
   local found=0
-  while IFS='|' read -r display source_dir skill_name category; do
+  while IFS='|' read -r display source_dir skill_name function_name domain_name; do
     [ -n "$display" ] || continue
     local link_path="$target_dir/$skill_name"
     if [ -L "$link_path" ]; then
@@ -55,13 +58,14 @@ echo
 
 echo "发现的 skill："
 count=0
-last_category=""
-while IFS='|' read -r display source_dir skill_name category; do
+last_group=""
+while IFS='|' read -r display source_dir skill_name function_name domain_name; do
   [ -n "$display" ] || continue
   count=$((count + 1))
-  if [ "$category" != "$last_category" ]; then
-    echo "  [$category]"
-    last_category="$category"
+  group="$function_name/$domain_name"
+  if [ "$group" != "$last_group" ]; then
+    echo "  [$group]"
+    last_group="$group"
   fi
   entry=""
   [ -f "$source_dir/SKILL.md" ] && entry="SKILL.md"
@@ -70,7 +74,7 @@ while IFS='|' read -r display source_dir skill_name category; do
 done < <(list_skill_records)
 
 if [ "$count" -eq 0 ]; then
-  echo "  未发现 skill。请使用 skills/<category>/<skill-name>/SKILL.md 结构。"
+  echo "  未发现 skill。请使用 skills/<function>/<domain>/<skill-name>/SKILL.md 结构。"
 fi
 
 check_target "$HOME/.agents/skills"
