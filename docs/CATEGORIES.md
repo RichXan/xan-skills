@@ -65,6 +65,6 @@
 
 1. `docs/CATEGORIES.md`
 2. 根目录 `README.md`
-3. 对应 skill 的 `registry.json` 条目
-4. 相关 `skills/<function>/README.md`
-5. 已启用子类的 `skills/<function>/<domain>/README.md`
+3. 相关 `skills/<function>/README.md`
+4. 已启用子类的 `skills/<function>/<domain>/README.md`
+5. `AGENTS.md` 或脚本规则，如果变更会影响 agent 操作方式

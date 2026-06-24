@@ -9,7 +9,7 @@ Xan Skills 是一个可复用的 AI Agent Skills 仓库。它把所有 skill 源
 - 分类规划：[docs/CATEGORIES.md](docs/CATEGORIES.md)
 - Skill 创建与更新规范：[docs/SKILL_GUIDE.md](docs/SKILL_GUIDE.md)
 - 新 skill 模板：[templates/new-skill/SKILL.md](templates/new-skill/SKILL.md)
-- Skill 注册表：[registry.json](registry.json)
+- Agent 协作规则：[AGENTS.md](AGENTS.md)
 
 ## 三层结构
 
@@ -25,6 +25,7 @@ skills/<function>/<domain>/<skill>/SKILL.md
 
 ```text
 xan-skills/
+├── AGENTS.md
 ├── docs/
 │   ├── CATEGORIES.md
 │   └── SKILL_GUIDE.md
@@ -44,7 +45,6 @@ xan-skills/
 │   └── productivity/
 ├── templates/
 │   └── new-skill/
-├── registry.json
 └── scripts/
     ├── install.sh
     ├── install.ps1
@@ -127,7 +127,7 @@ bash scripts/update.sh
 
 因为安装方式是链接，仓库更新后，安装到各 CLI 目录的 skill 会自动同步到最新内容。
 
-## 检查安装状态
+## 检查安装和同步状态
 
 ```bash
 bash scripts/doctor.sh
@@ -139,8 +139,41 @@ bash scripts/doctor.sh
 - 每个真实 skill 是否包含 `SKILL.md`。
 - 常见目标目录是否存在。
 - 已安装条目是链接，还是旧的复制目录。
+- Git 工作区是否有未提交修改。
+- 当前分支是否有未推送提交或未拉取的 upstream 更新。
 
 如果看到 `WARN: exists but is not a symlink`，说明目标目录里可能存在旧的复制版。建议先备份或移走，再重新安装链接版。
+
+## 修改 Skill 后同步远程仓库
+
+修改任何 skill 后，先检查状态：
+
+```bash
+git status --short
+bash scripts/doctor.sh
+```
+
+如果有未提交修改：
+
+```bash
+git add skills docs templates scripts AGENTS.md README.md
+git commit -m "update skills"
+git push
+```
+
+如果 `doctor.sh` 提示本地有未推送提交：
+
+```bash
+git push
+```
+
+如果 `doctor.sh` 提示本地落后 upstream：
+
+```bash
+git pull --ff-only
+```
+
+同步原则：服务器上直接修改 skill 后，必须通过 Git commit + push 同步回远程仓库。其他服务器再通过 `git pull --ff-only` 获取更新。
 
 ## 卸载链接
 
@@ -163,8 +196,8 @@ bash scripts/uninstall.sh
 5. 保持 `SKILL.md` 简洁，长规范、示例、表格放到 `references/`。
 6. 稳定、可重复、容易出错的逻辑放到 `scripts/`。
 7. 模板、示例文件、静态资源放到 `assets/`。
-8. 更新 `registry.json`。
-9. 运行 `bash scripts/doctor.sh` 并测试安装。
+8. 运行 `bash scripts/doctor.sh` 并测试安装。
+9. 提交并推送到远程仓库。
 
 ## 维护原则
 

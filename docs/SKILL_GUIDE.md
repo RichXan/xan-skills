@@ -163,9 +163,9 @@ description: 说明这个 skill 做什么，以及什么时候应该使用。把
 5. 编写 frontmatter：确保 `name` 与 `skill-name` 一致，`description` 包含触发场景。
 6. 编写正文：写清目的、输入、流程、输出、检查项、边界。
 7. 按需添加支持文件：长资料进 `references/`，确定性逻辑进 `scripts/`，静态模板进 `assets/`。
-8. 更新 `registry.json`，至少维护 `id`、`function`、`domain`、`path` 和 `entrypoint`。
-9. 运行检查。
-10. 测试安装到临时目录或真实目标目录。
+8. 运行检查。
+9. 测试安装到临时目录或真实目标目录。
+10. 提交并推送到远程仓库。
 
 推荐从模板开始：
 
@@ -178,20 +178,21 @@ cp -R templates/new-skill skills/<function>/<domain>/<skill-name>
 ## 更新已有 Skill 流程
 
 1. 优先保留原目录位置，除非 function 或 domain 明显错误。
-2. 如果移动目录，同时更新 `registry.json`、根 `README.md` 和 `docs/CATEGORIES.md`。
+2. 如果移动目录，同时更新根 `README.md`、`docs/CATEGORIES.md` 和相关分类 README。
 3. 如果启用新 function 或 domain，同步新增对应 README。
 4. 如果 `SKILL.md` 变长，把扩展内容拆到 `references/`。
 5. 如果修改了脚本，重新测试脚本。
 6. 运行 `bash scripts/doctor.sh`。
 7. 确认安装脚本仍能发现该 skill。
-8. 如果用户可能已经安装旧的复制版，在 README 或变更说明中写迁移提示。
+8. 提交并推送到远程仓库。
+9. 如果用户可能已经安装旧的复制版，在 README 或变更说明中写迁移提示。
 
 ## 检查命令
 
 ```bash
 bash scripts/doctor.sh
 bash -n scripts/install.sh scripts/uninstall.sh scripts/update.sh scripts/doctor.sh
-python -m json.tool registry.json >/dev/null
+git status --short
 ```
 
 Windows PowerShell 脚本语法检查：
@@ -220,8 +221,8 @@ printf 'a\n4\n%s\n' "$tmp" | bash scripts/install.sh
 - 大型资料已放入 `references/`。
 - 脚本已测试，或明确标记为未测试和原因。
 - 没有提交 secrets、token、密码、私钥或个人凭据。
-- `registry.json` 是合法 JSON，路径正确。
 - `scripts/doctor.sh` 能识别该 skill。
+- `scripts/doctor.sh` 没有提示未处理的 Git 同步问题。
 - README 或分类文档已同步更新。
 
 ## 安全要求
