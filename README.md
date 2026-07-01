@@ -74,6 +74,7 @@ xan-skills/
 - `skills/operations/automation/clock-in`
 - `skills/content/reports/oazon-daily`
 - `skills/content/reports/plain-language-daily-reports`
+- `skills/engineering/code-review/git-change-impact-brief`
 
 ## 安装目标
 
